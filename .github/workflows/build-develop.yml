@@ -228,6 +228,9 @@ jobs:
           java -jar connector/target/scala-2.13/*.jar $SNAPSHOT_TAG-SNAPSHOT
   e2e_test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version: [ 7.1.0, 7.2.0, 7.3.0, 7.4.0 ]
     needs:
       - build_and_cache_assembly
     steps:
@@ -256,7 +259,7 @@ jobs:
 
       - name: Run tests
         run: |
-          sbt e2e:test
+          CONFLUENT_VERSION="${{ matrix.version }}" sbt e2e:test
 
       - name: Publish test results
         uses: EnricoMi/publish-unit-test-result-action@v1
