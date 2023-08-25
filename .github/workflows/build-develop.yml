@@ -11,7 +11,7 @@ env:
 
 jobs:
   prepare_env:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
@@ -55,7 +55,7 @@ jobs:
 
   scalafmt:
     timeout-minutes: 5
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
@@ -77,7 +77,7 @@ jobs:
           JVM_OPTS: -Xmx3200m
 
   licenses_report:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
@@ -109,7 +109,7 @@ jobs:
           JVM_OPTS: -Xmx3200m
 
   test:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs:
       - prepare_env
     steps:
@@ -142,7 +142,7 @@ jobs:
           comment_mode: off
 
   integration_test:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs:
       - prepare_env
     steps:
@@ -175,7 +175,7 @@ jobs:
           comment_mode: off
 
   build_and_cache_assembly:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs:
       - prepare_env
       - scalafmt
@@ -227,7 +227,7 @@ jobs:
           ls -lsa connector/target/scala-2.13
           java -jar connector/target/scala-2.13/*.jar $SNAPSHOT_TAG-SNAPSHOT
   e2e_test:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     strategy:
       matrix:
         version: [ 7.1.0, 7.2.0, 7.3.0, 7.4.0 ]
@@ -270,7 +270,7 @@ jobs:
           comment_mode: off
 
   package:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs:
       - prepare_env
       - e2e_test
