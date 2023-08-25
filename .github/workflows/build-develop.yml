@@ -75,39 +75,7 @@ jobs:
         run: sbt scalafmtSbtCheck
         env:
           JVM_OPTS: -Xmx3200m
-
-  licenses_report:
-    runs-on: self-hosted
-    steps:
-      - name: Check out repository code
-        uses: actions/checkout@v3
-
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
-        with:
-          java-version: "17"
-          distribution: "zulu"
-          cache: "sbt"
-
-      - name: Create NOTICE File
-        run: |
-          cat <<EOT >> NOTICE
-          Copyright (c) $(date +%Y), Celonis SE.
-
-          Licensed under the Apache License, Version 2.0 (the "License");
-          you may not use this file except in compliance with the License.
-
-          Licenses for third-party software included in this release.
-
-          EOT
-
-      - name: Generate License Report
-        run: |
-          sbt dumpLicenseReport
-          cat target/license-reports/kafka-ems-connector-licenses.csv >> NOTICE
-        env:
-          JVM_OPTS: -Xmx3200m
-
+          
   test:
     runs-on: self-hosted
     needs:
